@@ -1,7 +1,7 @@
 <html>
 <html>
  <head>
-    <script src="three.js-master/build/three.min.js"></script>
+    <script src="three.js-master/build/three.js"></script>
     <script src="three.js-master/examples/js/controls/OrbitControls.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="Player.js"></script>
@@ -75,7 +75,7 @@
         //plane
         //Create the terrain
         var generator = new HeightMapGenerator();
-        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 100, 0.5, generator.generate());
+        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 100, 0.1, generator.generate(100, 0.1));
         terrain.addToScene(scene);
 
         //Cube

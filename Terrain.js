@@ -2,7 +2,7 @@ function Terrain(position, size, resolution, heightmap)
 {
     this.position = position;
 
-    var geometry = new THREE.PlaneBufferGeometry(size, size, (resolution * size) - 1, (resolution * size) - 1 );
+    var geometry = new THREE.PlaneBufferGeometry(size, size, (resolution * size) - 1, (resolution * size) - 1);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
 
     //Rotate it
