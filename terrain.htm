@@ -1,0 +1,97 @@
+<html>
+<html>
+ <head>
+    <script src="three.js-master/build/three.min.js"></script>
+    <script src="three.js-master/examples/js/controls/OrbitControls.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="Wall.js"></script>
+    <script type="text/javascript" src="Terrain.js"></script>
+
+    <script type="text/javascript" src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+    <script type="text/javascript">
+
+    $(function()
+    {
+        //scene
+        scene = new THREE.Scene();
+
+
+        //Camera and controlls
+        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+				camera.position.z = 500;
+
+				controls = new THREE.OrbitControls( camera );
+				controls.damping = 0.2;
+				controls.addEventListener( 'change', render );
+        // /Camera and Controlls
+
+
+        //renderer
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        renderer.shadowMapEnabled = true;
+        renderer.shadowMapSoft = true;
+
+        //controls
+        //var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+        //show canvas
+        $("#canvas-container").html(renderer.domElement);
+
+        //lights
+
+        //directional light
+        var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.01);
+        directionalLight.position.set(5, 5, 10);
+        directionalLight.target.position.set(0, 0, 0);
+
+        directionalLight.castShadow = true;
+        directionalLight.shadowDarkness = 0.5;
+        directionalLight.shadowCameraVisible = true;
+
+        directionalLight.shadowCameraNear = 0;
+        directionalLight.shadowCameraFar = 15;
+
+        directionalLight.shadowCameraLeft = -5;
+        directionalLight.shadowCameraRight = 5;
+        directionalLight.shadowCameraTop = 5;
+        directionalLight.shadowCameraBottom = -5;
+
+        scene.add(directionalLight);
+
+        var hemisphereLight = new THREE.HemisphereLight(0xffffff,0x000000,1.1);
+        hemisphereLight.position.set(1, 0, 1).normalize();
+        scene.add(hemisphereLight);
+
+        //plane
+        //Generate heigtmap
+        var heightmap = [];
+        for(i = 0; i < 100 * 100 * 0.1; i++){
+          heightmap[i] = Math.floor(Math.random() * 20);
+        }
+        //Create the terrain
+        var terrain = new Terrain(new THREE.Vector3(0, 0, 0), 100, 0.1, heightmap);
+        terrain.addToScene(scene);
+
+        //render scene
+        var render = function () {
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+            player.update();
+        };
+
+        render();
+    });
+
+    </script>
+
+    </head>
+    <body style="background: black">
+
+        <div id="canvas-container" style="position: absolute; left:0px; top:0px"></div>
+
+    </body>
+</html>
