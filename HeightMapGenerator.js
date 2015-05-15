@@ -21,11 +21,7 @@ function HeightMapGenerator()
     map[map.length - 1][0] = getRand(5) + 5;
     map[map.length - 1][map.length - 1] = getRand(5) + 5;
 
-    devide(0, 0, 0, map.length - 1, map);                               //Links Oben -> Links Unten
-    devide(0, 0, map.length - 1, 0, map);                               //Links Oben -> Rechts Oben
-    devide(0, 0, map.length - 1, map.length - 1, map);                  //Links Oben -> Rechts Unten (Mitte)
-    devide(0, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
-    devide(map.length - 1, 0, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
+    makeRect();
 
     //Convert to one dimensional array
     var output = [];
@@ -45,9 +41,17 @@ function HeightMapGenerator()
     return Math.floor(Math.random() * max);
   }
 
+  function makeRect(, size, resolution, map){ //Punkt REKURISOABSD 
+    divide(0, 0, 0, map.length - 1, map);                               //Links Oben -> Links Unten
+    divide(0, 0, map.length - 1, 0, map);                               //Links Oben -> Rechts Oben
+    divide(0, 0, map.length - 1, map.length - 1, map);                  //Links Oben -> Rechts Unten (Mitte)
+    divide(0, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
+    divide(map.length - 1, 0, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
+  }
+
   this.generate = this.generateDiamond;
 
-  function devide(x1, y1, x2, y2, map){
+  function divide(x1, y1, x2, y2, map){
     var value = (map[x1][y1] + map[x1][y1]) / 2;
     value = value - getRand(10) + 5;
     map[Math.floor((x1 + x2) / 2)][Math.floor((y1 + y2) / 2)] = value;
