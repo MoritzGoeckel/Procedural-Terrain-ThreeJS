@@ -41,13 +41,21 @@ function HeightMapGenerator()
     return Math.floor(Math.random() * max);
   }
 
-  function makeRect(, size, resolution, map){ //Punkt REKURISOABSD 
-    divide(0, 0, 0, map.length - 1, map);                               //Links Oben -> Links Unten
-    divide(0, 0, map.length - 1, 0, map);                               //Links Oben -> Rechts Oben
-    divide(0, 0, map.length - 1, map.length - 1, map);                  //Links Oben -> Rechts Unten (Mitte)
-    divide(0, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
-    divide(map.length - 1, 0, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
+  function makeRect(x, y, size, resolution, map){ //Punkt REKURISOABSD
+    divide(x, y, x + size, map.length - 1, map);                               //Links Oben -> Links Unten
+    divide(x, y, map.length - 1, 0, map);                               //Links Oben -> Rechts Oben
+    divide(x, y, map.length - 1, map.length - 1, map);                  //Links Oben -> Rechts Unten (Mitte)
+    divide(x, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
+    divide(map.length - 1, y, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
   }
+
+  /*  function makeRect(size, resolution, map){ //Punkt REKURISOABSD
+      divide(0, 0, 0, map.length - 1, map);                               //Links Oben -> Links Unten
+      divide(0, 0, map.length - 1, 0, map);                               //Links Oben -> Rechts Oben
+      divide(0, 0, map.length - 1, map.length - 1, map);                  //Links Oben -> Rechts Unten (Mitte)
+      divide(0, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
+      divide(map.length - 1, 0, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
+    }*/
 
   this.generate = this.generateDiamond;
 
