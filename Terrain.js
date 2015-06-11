@@ -1,8 +1,8 @@
-function Terrain(position, size, resolution, heightmap)
+function Terrain(position, size, heightmap)
 {
     this.position = position;
 
-    var geometry = new THREE.PlaneBufferGeometry(size, size, (resolution * size) - 1, (resolution * size) - 1);
+    var geometry = new THREE.PlaneBufferGeometry(size, size, size, size);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
 
     //Rotate it
@@ -10,7 +10,8 @@ function Terrain(position, size, resolution, heightmap)
 
     var vertices = geometry.attributes.position.array;
 		for ( var i = 0; (i * 3) < vertices.length && i < heightmap.length; i++) {
-      vertices[(i * 3) + 2] = heightmap[i];
+      if(isNaN(heightmap[i]) == false)
+        vertices[(i * 3) + 2] = heightmap[i];
 		}
 
     this.mesh = new THREE.Mesh( geometry, material);

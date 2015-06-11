@@ -69,13 +69,13 @@
 				//scene.add( directionalLight );
 
         //Hemi
-				var hemiLight = new THREE.HemisphereLight( 0xaabbff, 0x040404, 0.3 );
+				var hemiLight = new THREE.HemisphereLight( 0xaabbff, 0x040404, 0.4 );
 				scene.add( hemiLight );
 
         //plane
         //Create the terrain
         var generator = new HeightMapGenerator();
-        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 100, 0.1, generator.generate(100, 0.1));
+        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 64, generator.generate(64));
         terrain.addToScene(scene);
 
         //Cube
