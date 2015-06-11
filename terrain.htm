@@ -47,7 +47,7 @@
 
         //Spot
         var spotLight = new THREE.SpotLight( 0xffffff );
-        spotLight.position.set( 10, 10, 30 );
+        spotLight.position.set( 10, 10, 300 );
         spotLight.castShadow = true;
         spotLight.shadowMapWidth = 1024;
         spotLight.shadowMapHeight = 1024;
@@ -55,6 +55,12 @@
         spotLight.shadowCameraFar = 4000;
         spotLight.shadowCameraFov = 30;
         scene.add( spotLight );
+
+        /*for(var x = -1; x < 1; x++){
+          for(var y = -1; y < 1; y++){
+            addSpot(scene, x * 400, y * 400, 800);
+          }
+        }*/
 
         //Point
         var light = new THREE.PointLight( 0xff0000, 1, 100 );
@@ -75,7 +81,7 @@
         //plane
         //Create the terrain
         var generator = new HeightMapGenerator();
-        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 64, generator.generate(64));
+        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 512, generator.generate(512));
         terrain.addToScene(scene);
 
         //Cube
@@ -95,6 +101,19 @@
 
         render();
     });
+
+    function addSpot(scene, x, y, z) {
+      //Spot
+      var spotLight = new THREE.SpotLight( 0xffffff );
+      spotLight.position.set( x, y, z);
+      spotLight.castShadow = true;
+      spotLight.shadowMapWidth = 1024;
+      spotLight.shadowMapHeight = 1024;
+      spotLight.shadowCameraNear = 500;
+      spotLight.shadowCameraFar = 4000;
+      spotLight.shadowCameraFov = 30;
+      scene.add( spotLight );
+    }
 
     </script>
 

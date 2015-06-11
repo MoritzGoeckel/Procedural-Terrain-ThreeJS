@@ -16,8 +16,6 @@ function HeightMapGenerator()
       map[i] = new Array(size + 1);
     }
 
-    //size = size - 1;
-
     map[0][0] = getRand(20);
     map[0][size] = getRand(20);
     map[size][0] = getRand(20);
@@ -43,7 +41,7 @@ function HeightMapGenerator()
     return Math.floor(Math.random() * max);
   }
 
-  function makeRect(x, y, size, interation, map){ //Punkt REKURISOABSD
+  function makeRect(x, y, size, interation, map){
     divide(x, y, x, y + size, interation, map);                   //Links Oben -> Links Unten
     divide(x, y, x + size, y, interation, map);                   //Links Oben -> Rechts Oben
     divide(x, y, x + size, y + size, interation, map);            //Links Oben -> Rechts Unten (Mitte)
@@ -54,36 +52,27 @@ function HeightMapGenerator()
     {
         //Rekursion
         var halfSize = Math.floor(size / 2);
-        //var newIteration = interation + 1;
         var newIteration = interation + 1;
 
-        makeRect(x, y, halfSize, newIteration, map);                //Oben Links
-        makeRect(x + halfSize, y, halfSize, newIteration, map);       //Oben Rechts
-        makeRect(x, y + halfSize, halfSize, newIteration, map);     //Unten Links
+        makeRect(x, y, halfSize, newIteration, map);                    //Oben Links
+        makeRect(x + halfSize, y, halfSize, newIteration, map);         //Oben Rechts
+        makeRect(x, y + halfSize, halfSize, newIteration, map);         //Unten Links
         makeRect(x + halfSize, y + halfSize, halfSize, newIteration, map); //Unten Rechts
     }
   }
-
-  //Worked first
-  /*  function makeRect(size, resolution, map){ //Punkt REKURISOABSD
-      divide(0, 0, 0, map.length - 1, map);                              //Links Oben -> Links Unten
-      divide(0, 0, map.length - 1, 0, map);                              //Links Oben -> Rechts Oben
-      divide(0, 0, map.length - 1, map.length - 1, map);                 //Links Oben -> Rechts Unten (Mitte)
-      divide(0, map.length - 1, map.length - 1, map.length - 1, map);    //Links Unten -> Rechts Unten
-      divide(map.length - 1, 0, map.length - 1, map.length - 1, map);    //Rechts Oben -> Rechts Unten
-    }*/
 
   this.generate = this.generateDiamond;
 
   function divide(x1, y1, x2, y2, interation, map){
     var value = (map[x1][y1] + map[x2][y2]) / 2;
 
-    /*var randPower = 20 / interation;
-    randPower = Math.floor(randPower);
-    if(randPower <= 1)
-      randPower = 2;
+    if(interation === 0)
+      interation = 1;
 
-    value = value - getRand(randPower) + (randPower / 2);*/
+    var randPower = 250 / Math.pow(interation, 2.3);
+
+    value = value - getRand(randPower) + (randPower / 2);
+    value = Math.round(value);
 
     var midCordX = Math.floor((x1 + x2) / 2);
     var midCordY = Math.floor((y1 + y2) / 2);
