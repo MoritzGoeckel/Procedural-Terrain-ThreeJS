@@ -3,7 +3,6 @@ function Terrain(position, size, heightmap)
     this.position = position;
 
     var geometry = new THREE.PlaneBufferGeometry(size, size, size, size);
-    var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
 
     //Rotate it
     //geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
@@ -14,7 +13,14 @@ function Terrain(position, size, heightmap)
         vertices[(i * 3) + 2] = heightmap[i];
 		}
 
-    this.mesh = new THREE.Mesh( geometry, material);
+    //this.mesh = new THREE.Mesh( geometry, material);
+
+    this.mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [
+
+    new THREE.MeshLambertMaterial( { color: 0xe8e8e8 } ),
+    new THREE.MeshBasicMaterial( { color: 0xe8e8e8, wireframe: true} )
+
+    ]);
 
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;

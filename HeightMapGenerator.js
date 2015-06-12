@@ -69,7 +69,7 @@ function HeightMapGenerator()
     if(interation === 0)
       interation = 1;
 
-    var randPower = 250 / Math.pow(interation, 2.3);
+    var randPower = 60 / Math.pow(interation, 2);
 
     value = value - getRand(randPower) + (randPower / 2);
     value = Math.round(value);

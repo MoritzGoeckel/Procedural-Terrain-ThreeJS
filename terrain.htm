@@ -54,7 +54,7 @@
         spotLight.shadowCameraNear = 500;
         spotLight.shadowCameraFar = 4000;
         spotLight.shadowCameraFov = 30;
-        scene.add( spotLight );
+        //scene.add( spotLight );
 
         /*for(var x = -1; x < 1; x++){
           for(var y = -1; y < 1; y++){
@@ -64,7 +64,7 @@
 
         //Point
         var light = new THREE.PointLight( 0xff0000, 1, 100 );
-        light.position.set( 0, 0, 0 );
+        light.position.set(30, 30, 100);
         //scene.add( light );
 
         //Directional
@@ -75,13 +75,13 @@
 				//scene.add( directionalLight );
 
         //Hemi
-				var hemiLight = new THREE.HemisphereLight( 0xaabbff, 0x040404, 0.4 );
+				var hemiLight = new THREE.HemisphereLight( 0xaabbff, 0x040404, 1 );
 				scene.add( hemiLight );
 
         //plane
         //Create the terrain
         var generator = new HeightMapGenerator();
-        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 512, generator.generate(512));
+        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 256, generator.generate(256));
         terrain.addToScene(scene);
 
         //Cube
@@ -102,7 +102,7 @@
         render();
     });
 
-    function addSpot(scene, x, y, z) {
+    /*function addSpot(scene, x, y, z) {
       //Spot
       var spotLight = new THREE.SpotLight( 0xffffff );
       spotLight.position.set( x, y, z);
@@ -113,7 +113,7 @@
       spotLight.shadowCameraFar = 4000;
       spotLight.shadowCameraFov = 30;
       scene.add( spotLight );
-    }
+    }*/
 
     </script>
 
