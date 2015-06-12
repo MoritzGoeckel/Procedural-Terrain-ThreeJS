@@ -21,7 +21,7 @@
 				scene.fog = new THREE.Fog( 0xffffff, 1000, 10000 );
 
         //Camera and controlls
-        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
 				camera.position.z = 500;
 
 				controls = new THREE.OrbitControls( camera );
@@ -29,69 +29,28 @@
 				controls.addEventListener( 'change', render );
         // /Camera and Controlls
 
-
         //renderer
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
-
         renderer.shadowMapEnabled = true;
         renderer.shadowMapSoft = true;
-
-        //controls
-        //var controls = new THREE.OrbitControls( camera, renderer.domElement );
 
         //show canvas
         $("#canvas-container").html(renderer.domElement);
 
         //lights
+        scene.add( new THREE.AmbientLight( 0x808080 ) );
 
-        //Spot
-        var spotLight = new THREE.SpotLight( 0xffffff );
-        spotLight.position.set( 10, 10, 300 );
-        spotLight.castShadow = true;
-        spotLight.shadowMapWidth = 1024;
-        spotLight.shadowMapHeight = 1024;
-        spotLight.shadowCameraNear = 500;
-        spotLight.shadowCameraFar = 4000;
-        spotLight.shadowCameraFov = 30;
-        scene.add( spotLight );
+        light = new THREE.SpotLight( 0xffffff, 1.25 );
+				light.position.set(-500, 900, 600);
+				light.target.position.set( window.innerWidth / 2, 0, window.innerWidth / 2 );
+				light.castShadow = true;
+				scene.add( light );
 
-        /*for(var x = -1; x < 1; x++){
-          for(var y = -1; y < 1; y++){
-            addSpot(scene, x * 400, y * 400, 800);
-          }
-        }*/
-
-        //Point
-        var light = new THREE.PointLight( 0xff0000, 1, 100 );
-        light.position.set( 0, 0, 0 );
-        //scene.add( light );
-
-        //Directional
-        var directionalLight = new THREE.DirectionalLight( 0x333333, 2 );
-				directionalLight.position.set( 30, 30, 30 );
-        directionalLight.target.position.set(0, 0, -30);
-        directionalLight.castShadows = true;
-				//scene.add( directionalLight );
-
-        //Hemi
-				var hemiLight = new THREE.HemisphereLight( 0xaabbff, 0x040404, 0.4 );
-				scene.add( hemiLight );
-
-        //plane
         //Create the terrain
         var generator = new HeightMapGenerator();
-        var terrain = new Terrain(new THREE.Vector3(0, 10, -30), 512, generator.generate(512));
+        var terrain = new Terrain(new THREE.Vector3(0, 0, 0), 512, generator.generate(512));
         terrain.addToScene(scene);
-
-        //Cube
-        var c_geometry = new THREE.BoxGeometry(1,1,1);
-        var c_material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
-        var c_mesh = new THREE.Mesh( c_geometry, c_material );
-        c_mesh.castShadow = true;
-        c_mesh.position.set(0, 0, 0);
-        c_mesh.receiveShadow = true;
-        scene.add(c_mesh);
 
         //render scene
         var render = function () {
@@ -101,19 +60,6 @@
 
         render();
     });
-
-    function addSpot(scene, x, y, z) {
-      //Spot
-      var spotLight = new THREE.SpotLight( 0xffffff );
-      spotLight.position.set( x, y, z);
-      spotLight.castShadow = true;
-      spotLight.shadowMapWidth = 1024;
-      spotLight.shadowMapHeight = 1024;
-      spotLight.shadowCameraNear = 500;
-      spotLight.shadowCameraFar = 4000;
-      spotLight.shadowCameraFov = 30;
-      scene.add( spotLight );
-    }
 
     </script>
 
