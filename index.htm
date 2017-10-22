@@ -2,14 +2,10 @@
 <html>
  <head>
     <script src="three-min.js"></script>
-    <script src="three.js-master/examples/js/controls/OrbitControls.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script type="text/javascript" src="Player.js"></script>
-    <script type="text/javascript" src="Wall.js"></script>
     <script type="text/javascript" src="Terrain.js"></script>
     <script type="text/javascript" src="HeightMapGenerator.js"></script>
-
-    <script type="text/javascript" src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+	<script src="OrbitControls.js"></script>
 
     <script type="text/javascript">
 
@@ -18,15 +14,15 @@
         //scene
         scene = new THREE.Scene();
         //Fog
-				scene.fog = new THREE.Fog( 0xffffff, 1000, 10000 );
+		//scene.fog = new THREE.Fog( 0xffffff, 500, 1000 );
 
         //Camera and controlls
         camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
-				camera.position.z = 500;
+		camera.position.z = 500;
 
-				controls = new THREE.OrbitControls( camera );
-				controls.damping = 0.2;
-				controls.addEventListener( 'change', render );
+		controls = new THREE.OrbitControls( camera );
+		controls.damping = 0.2;
+		controls.addEventListener( 'change', render );
         // /Camera and Controlls
 
         //renderer
@@ -39,19 +35,37 @@
         $("#canvas-container").html(renderer.domElement);
 
         //lights
-        scene.add( new THREE.AmbientLight( 0x808080 ) );
+        //scene.add( new THREE.AmbientLight( 0x808080 ) );
 
-        light = new THREE.SpotLight( 0xffffff, 1.25 );
-				light.position.set(-500, 900, 600);
-				light.target.position.set( window.innerWidth / 2, 0, window.innerWidth / 2 );
-				light.castShadow = true;
-				scene.add( light );
+		function addLight(x, y, z, castShadows){
+			var pointLight = new THREE.PointLight( 0xffffff, 0.75, 700 );
+			pointLight.position.set(x, y, z);
+			pointLight.castShadow = castShadows;
+			scene.add( pointLight );
+			
+			pointLight.shadow.mapSize.width = 1024;  // default
+			pointLight.shadow.mapSize.height = 1024; // default
+			pointLight.shadow.camera.near = 0.5;       // default
+			pointLight.shadow.camera.far = 1000      // default
+
+			var sphereSize = 1;
+			var pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+			scene.add( pointLightHelper );
+		}
+		
+		//addLight(0,0, 200, true)		
+		addLight(-120,-120, 130, true)
+		addLight(120,120, 130, true)
+		addLight(-120,120, 130, true)
+		addLight(120,-120, 130, true)
 
         //Create the terrain
         var generator = new HeightMapGenerator();
         var terrain = new Terrain(new THREE.Vector3(0, 0, 0), 512, generator.generate(512));
         terrain.addToScene(scene);
-
+		terrain.receiveShadow  = true;
+		terrain.castShadow  = true;
+		
         //render scene
         var render = function () {
             requestAnimationFrame(render);
